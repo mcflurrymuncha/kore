@@ -2,8 +2,7 @@ name: build n release
 
 on:
   push:
-    tags: "v*"
-
+  
 jobs:
   release:
     strategy:
