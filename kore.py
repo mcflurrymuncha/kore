@@ -64,7 +64,7 @@ def show_linux_disclaimer():
     print(Fore.YELLOW + "=" * 60)
     print(Fore.RED + "LINUX EXPERIMENTAL SUPPORT")
     print(Fore.YELLOW + "=" * 60)
-    print(Fore.CYAN + "\nkoroneStrap has detected you are on Linux.")
+    print(Fore.CYAN + "\nkore has detected you are on Linux.")
     print(Fore.CYAN + "Linux support is highly experimental, therefore report any")
     print(Fore.CYAN + "bugs using the Issues tab on GitHub.")
     print(Fore.YELLOW + "\nContinuing in 5 seconds...")
@@ -832,15 +832,16 @@ def main_menu():
             (2, 74, 200),
         ]
         ascii_logo = [
-            "    ** **                         ",
-            "   / //_/___  _________  ____  ___ ",
-            "  / ,< / ** \\/ **_/ ** \\/ ** \\/ * \\",
-            " / /| / /*/ / /  / /_/ / / / /  __/",
-            "/_/ |_\\____/_/   \\____/_/ /_/\\___/"
+            "  _                  ",
+            " | |                 ",
+            " | | _____  _ __ ___ ",
+            " | |/ / _ \| '__/ _ \",
+            " |   < (_) | | |  __/",
+            " |_|\_\___/|_|  \___|"
         ]
         for (r, g, b), line in zip(gradient, ascii_logo):
             print(f"\033[38;2;{r};{g};{b}m{line}\033[0m")
-        print(Fore.BLUE + "Made with <3 by vancyy and David")
+        print(Fore.BLUE + "Made by vexi (thanks korone team)")
         platform_name = "Windows" if sys_info['is_windows'] else ("Linux" if sys_info['is_linux'] else ("macOS" if sys_info['is_macos'] else "Unknown"))
         print(Fore.CYAN + f"Running on: {platform_name} | Version: {VERSION}")
         
