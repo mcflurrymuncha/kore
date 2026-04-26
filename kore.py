@@ -832,12 +832,7 @@ def main_menu():
             (2, 74, 200),
         ]
         ascii_logo = [
-            "  _                  ",
-            " | |                 ",
-            " | | _____  _ __ ___ ",
-            " | |/ / _ \| '__/ _ \",
-            " |   < (_) | | |  __/",
-            " |_|\_\___/|_|  \___|"
+            "kore beta - working on logo lol"
         ]
         for (r, g, b), line in zip(gradient, ascii_logo):
             print(f"\033[38;2;{r};{g};{b}m{line}\033[0m")
