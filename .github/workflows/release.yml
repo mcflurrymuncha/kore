@@ -1,4 +1,4 @@
-name: Release
+name: build n release
 
 on:
   push:
@@ -28,16 +28,20 @@ jobs:
             name: kore-linux-intel
             exe: kore
             platform: linux
+
     runs-on: ${{ matrix.os }}
     permissions:
       contents: write
+
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
       - name: Generate Changelog
         run: |
           PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
@@ -47,10 +51,12 @@ jobs:
             git log --pretty=format:"%s" $PREV_TAG..HEAD > changelog.txt
           fi
         shell: bash
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install colorama pyinstaller
+
       - name: Build
         run: |
           if [ "${{ matrix.platform }}" == "macos" ]; then
@@ -60,6 +66,7 @@ jobs:
             cat <<'EOF_LAUNCHER' > kore.app/Contents/MacOS/kore
           #!/bin/bash
           DIR=$(cd "$(dirname "$0")"; pwd)
+          # Note: osascript allows terminal output for CLI apps on macOS
           osascript -e "tell application \"Terminal\" to do script \"'$DIR/kore_bin'\""
           EOF_LAUNCHER
             chmod +x kore.app/Contents/MacOS/kore
@@ -98,9 +105,18 @@ jobs:
             echo "RELEASE_FILE=${{ matrix.name }}" >> $GITHUB_ENV
           fi
         shell: bash
+
       - name: Debug Output
         run: ls -R
         shell: bash
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }}-artifact
+          path: ${{ env.RELEASE_FILE }}
+          if-no-files-found: error
+
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
