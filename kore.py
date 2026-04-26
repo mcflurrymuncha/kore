@@ -222,7 +222,7 @@ def uninstall_linux_integration():
     if not get_system_info()['is_linux']:
         return
     
-    print(Fore.CYAN + "[*] Uninstalling Linux integration...")
+    print(Fore.CYAN + "[*] Uninstalling Linux integration... :(")
     
     # Remove desktop entries
     for entry in [ENTRY_FILE, UNINSTALL_ENTRY_FILE]:
