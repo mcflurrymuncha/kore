@@ -12,22 +12,22 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            name: koroneStrap-windows.exe
-            exe: koroneStrap.exe
+            name: kore-windows.exe
+            exe: kore.exe
             platform: windows
           - os: macos-latest
-            name: koroneStrap-macos-universal.zip
-            exe: koroneStrap.app
+            name: kore-macos-universal.zip
+            exe: kore.app
             platform: macos
             arch: universal2
           - os: macos-latest
-            name: koroneStrap-macos-arm.zip
-            exe: koroneStrap.app
+            name: kore-macos-arm.zip
+            exe: kore.app
             platform: macos
             arch: arm64
           - os: ubuntu-latest
-            name: koroneStrap-linux-intel
-            exe: koroneStrap
+            name: kore-linux-intel
+            exe: kore
             platform: linux
     runs-on: ${{ matrix.os }}
     permissions:
@@ -55,31 +55,31 @@ jobs:
       - name: Build
         run: |
           if [ "${{ matrix.platform }}" == "macos" ]; then
-            pyinstaller --onefile --target-arch ${{ matrix.arch }} --name koroneStrap_bin koroneStrap.py
-            mkdir -p koroneStrap.app/Contents/MacOS
-            mkdir -p koroneStrap.app/Contents/Resources
-            cat <<'EOF_LAUNCHER' > koroneStrap.app/Contents/MacOS/koroneStrap
+            pyinstaller --onefile --target-arch ${{ matrix.arch }} --name kore_bin kore.py
+            mkdir -p kore.app/Contents/MacOS
+            mkdir -p kore.app/Contents/Resources
+            cat <<'EOF_LAUNCHER' > kore.app/Contents/MacOS/kore
           #!/bin/bash
           DIR=$(cd "$(dirname "$0")"; pwd)
-          osascript -e "tell application \"Terminal\" to do script \"'$DIR/koroneStrap_bin'\""
+          osascript -e "tell application \"Terminal\" to do script \"'$DIR/kore_bin'\""
           EOF_LAUNCHER
-            chmod +x koroneStrap.app/Contents/MacOS/koroneStrap
-            cp dist/koroneStrap_bin koroneStrap.app/Contents/MacOS/
-            cat <<EOF > koroneStrap.app/Contents/Info.plist
+            chmod +x kore.app/Contents/MacOS/kore
+            cp dist/kore_bin kore.app/Contents/MacOS/
+            cat <<EOF > kore.app/Contents/Info.plist
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0">
           <dict>
               <key>CFBundleExecutable</key>
-              <string>koroneStrap</string>
+              <string>kore</string>
               <key>CFBundleIconFile</key>
               <string>icon-windowed.icns</string>
               <key>CFBundleIdentifier</key>
-              <string>com.koroneStrap.app</string>
+              <string>com.kore.app</string>
               <key>CFBundleInfoDictionaryVersion</key>
               <string>6.0</string>
               <key>CFBundleName</key>
-              <string>koroneStrap</string>
+              <string>kore</string>
               <key>CFBundlePackageType</key>
               <string>APPL</string>
               <key>CFBundleShortVersionString</key>
@@ -87,15 +87,15 @@ jobs:
           </dict>
           </plist>
           EOF
-            zip -r ${{ matrix.name }} koroneStrap.app
+            zip -r ${{ matrix.name }} kore.app
             echo "RELEASE_FILE=${{ matrix.name }}" >> $GITHUB_ENV
           elif [ "${{ matrix.platform }}" == "windows" ]; then
-            pyinstaller --onefile --name koroneStrap koroneStrap.py
-            mv dist/koroneStrap.exe ${{ matrix.name }}
+            pyinstaller --onefile --name kore kore.py
+            mv dist/kore.exe ${{ matrix.name }}
             echo "RELEASE_FILE=${{ matrix.name }}" >> $GITHUB_ENV
           else
-            pyinstaller --onefile --name koroneStrap koroneStrap.py
-            mv dist/koroneStrap ${{ matrix.name }}
+            pyinstaller --onefile --name kore kore.py
+            mv dist/kore ${{ matrix.name }}
             echo "RELEASE_FILE=${{ matrix.name }}" >> $GITHUB_ENV
           fi
         shell: bash
