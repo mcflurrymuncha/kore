@@ -70,14 +70,14 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            artifact_name: koroneStrap.exe
-            asset_name: koroneStrap-windows.exe
+            artifact_name: kore.exe
+            asset_name: kore-windows.exe
           - os: ubuntu-latest
-            artifact_name: koroneStrap
-            asset_name: koroneStrap-linux
+            artifact_name: kore
+            asset_name: kore-linux
           - os: macos-latest
-            artifact_name: koroneStrap
-            asset_name: koroneStrap-macos
+            artifact_name: kore
+            asset_name: kore-macos
 
     steps:
     - uses: actions/checkout@v4
@@ -96,7 +96,7 @@ jobs:
 
     - name: Build with PyInstaller
       run: |
-        pyinstaller --onefile --name koroneStrap koroneStrap.py
+        pyinstaller --onefile --name kore kore.py
       shell: bash
 
     - name: Upload executable artifact
